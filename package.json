@@ -1,0 +1,44 @@
+{
+  "name": "my-quest-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/app.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/julien-dev-29/my-quest-backend.git"
+  },
+  "keywords": [],
+  "author": "Jurol",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/julien-dev-29/my-quest-backend/issues"
+  },
+  "homepage": "https://github.com/julien-dev-29/my-quest-backend#readme",
+  "dependencies": {
+    "@prisma/client": "^6.17.1",
+    "@quixo3/prisma-session-store": "^3.1.13",
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "helmet": "^8.1.0",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/express-session": "^1.18.2",
+    "@types/passport": "^1.0.17",
+    "@types/passport-jwt": "^4.0.1",
+    "@types/passport-local": "^1.0.38",
+    "prisma": "^6.17.1",
+    "tsx": "^4.20.6"
+  }
+}
