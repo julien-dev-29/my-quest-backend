@@ -24,7 +24,7 @@ export default {
                         id: user.id,
                         email: user.email
                     },
-                    process.env.JWT_SECRET || 'cats' as string,
+                    process.env.JWT_SECRET || 'cats',
                     {
                         expiresIn: '1h'
                     }
