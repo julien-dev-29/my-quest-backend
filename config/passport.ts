@@ -50,9 +50,10 @@ passport.use(
                         id: payload.id
                     }
                 })
-                if (!user) return done(null, false)
+                if (!user) return done(null, false, { message: "Token invalid" })
                 return done(null, user)
             } catch (error) {
+                console.error("[JWT ERROR]", error);
                 return done(error, false)
             }
         }

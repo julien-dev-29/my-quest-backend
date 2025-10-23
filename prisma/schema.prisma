@@ -39,7 +39,7 @@ model Profile {
 model Post {
   id        String    @id @default(cuid())
   content   String
-  comment   Comment[]
+  comments  Comment[]
   likes     Like[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -48,12 +48,13 @@ model Post {
 }
 
 model Comment {
-  id     String  @id @default(cuid())
-  Like   Like[]
-  User   User?   @relation(fields: [userId], references: [id])
-  userId String?
-  Post   Post?   @relation(fields: [postId], references: [id])
-  postId String?
+  id      String  @id @default(cuid())
+  content String
+  likes   Like[]
+  user    User?   @relation(fields: [userId], references: [id])
+  userId  String?
+  Post    Post?   @relation(fields: [postId], references: [id])
+  postId  String?
 }
 
 model Like {

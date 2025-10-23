@@ -11,7 +11,36 @@ export default {
                     skip: offset,
                     take: perPage,
                     orderBy: {
-                        createdAt:  "desc"
+                        createdAt: "desc"
+                    },
+                    include: {
+                        author: {
+                            select: {
+                                id: true,
+                                username: true
+                            }
+                        },
+                        likes: {
+                            include: {
+                                user: {
+                                    select: {
+                                        id: true,
+                                        username: true
+                                    }
+                                }
+                            }
+                        },
+                        comments: {
+                            include: {
+                                user: {
+                                    select: {
+                                        id: true,
+                                        username: true
+                                    }
+                                },
+                                likes: true
+                            }
+                        }
                     }
                 }),
                 prisma.post.count()
@@ -43,7 +72,7 @@ export default {
                     id: id
                 },
                 include: {
-                    comment: true
+                    comments: true
                 }
             })
             if (!post) {
@@ -105,18 +134,18 @@ export default {
     update: async (req: Request, res: Response) => {
         try {
             const postId = req.params.postId
-            const { title, content, slug, userId } = req.body
+            const { content, userId } = req.body
             await prisma.post.update({
                 data: {
                     content: content,
-                    authorId: userId
+                    authorId: userId,
                 },
                 where: {
                     id: postId
                 }
             })
             res.json({
-                message: `Le post ${title} a été modifié avec succès...`
+                message: `Le post a été modifié avec succès...`
             })
         } catch (error) {
             if (error instanceof Error)
@@ -139,6 +168,74 @@ export default {
             if (error instanceof Error)
                 res.json({
                     error: error.message as string
+                })
+        }
+    },
+    like: async (req: Request, res: Response) => {
+        try {
+            const postId = req.params.postId
+            const { userId } = req.body
+            const existingLike = await prisma.like.findFirst({
+                where: {
+                    postId: postId,
+                    userId: userId
+                }
+            })
+            if (existingLike) {
+                return res.json({
+                    message: "The post is already liked"
+                })
+            }
+
+            await prisma.like.create({
+                data: {
+                    userId: userId,
+                    postId: postId
+                }
+            })
+            const updatedLikes = await prisma.like.findMany({
+                where: { postId },
+                include: { user: true },
+            });
+
+            res.json({ likes: updatedLikes });
+
+        } catch (error) {
+            if (error instanceof Error)
+                res.status(500).json({
+                    error: error.message
+                })
+        }
+    },
+    unlike: async (req: Request, res: Response) => {
+        try {
+            const { userId } = req.body
+            const postId = req.params.postId
+
+            await prisma.like.deleteMany({
+                where: {
+                    postId: postId,
+                    userId: userId
+                }
+            })
+            const updatedLikes = await prisma.like.findMany({
+                where: {
+                    postId: postId
+                },
+                include: {
+                    user: {
+                        select: {
+                            username: true,
+                            id: true
+                        }
+                    }
+                }
+            })
+            res.json({ likes: updatedLikes });
+        } catch (error) {
+            if (error instanceof Error)
+                res.status(500).json({
+                    error: error.message
                 })
         }
     }
