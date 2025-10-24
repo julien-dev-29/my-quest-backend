@@ -48,13 +48,16 @@ model Post {
 }
 
 model Comment {
-  id      String  @id @default(cuid())
-  content String
-  likes   Like[]
-  user    User?   @relation(fields: [userId], references: [id])
-  userId  String?
-  Post    Post?   @relation(fields: [postId], references: [id])
-  postId  String?
+  id        String    @id @default(cuid())
+  content   String
+  likes     Like[]
+  parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  parentId  String
+  user      User?     @relation(fields: [userId], references: [id])
+  userId    String?
+  Post      Post?     @relation(fields: [postId], references: [id])
+  postId    String?
+  replies   Comment[] @relation("CommentReplies")
 }
 
 model Like {

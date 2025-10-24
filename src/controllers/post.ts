@@ -38,7 +38,7 @@ export default {
                                         username: true
                                     }
                                 },
-                                likes: true
+                                likes: true,
                             }
                         }
                     }
