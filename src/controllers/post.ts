@@ -39,6 +39,12 @@ export default {
                                     }
                                 },
                                 likes: true,
+                                replies: {
+                                    include: {
+                                        user: true,
+                                        likes: true
+                                    }
+                                }
                             }
                         }
                     }

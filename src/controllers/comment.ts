@@ -6,12 +6,13 @@ export default {
     get: async () => { },
     create: async (req: Request, res: Response) => {
         try {
-            const { userId, postId, content } = req.body
+            const { userId, postId, content, parentId } = req.body
             const newComment = await prisma.comment.create({
                 data: {
                     postId: postId,
                     content: content,
-                    userId: userId
+                    userId: userId,
+                    parentId: parentId
                 },
                 include: {
                     user: {
@@ -19,7 +20,7 @@ export default {
                             username: true
                         }
                     },
-                    likes: true
+                    likes: true,
                 }
 
             })
