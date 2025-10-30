@@ -3,12 +3,11 @@ import express from "express"
 import authRouter from "./routes/auth"
 import postRouter from './routes/post.ts'
 import commentRouter from "./routes/comment.ts"
+import profileRouter from "./routes/profile.ts"
+import passport from "passport"
 import cors from "cors"
 import bodyParser from "body-parser"
 import helmet from "helmet"
-import session from "express-session"
-import passport from "passport"
-import prisma from "../prisma/client.ts"
 const app = express()
 const PORT = process.env.PORT
 
@@ -27,6 +26,7 @@ app.use(passport.initialize())
 
 app.use("/api/posts", postRouter)
 app.use("/api/comments", commentRouter)
+app.use("/api/profiles", profileRouter)
 app.use(authRouter)
 
 app.listen(PORT, (err) => {
